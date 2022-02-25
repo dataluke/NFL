@@ -46,3 +46,15 @@ offenses_all %>%
   geom_image(aes(team_logo_espn), size = 0.05, asp = 16/9) +
   theme_minimal()
 
+#QB-leaderboard
+season21 <- load_pbp(2021) %>%
+  filter(season_type == "REG", complete_pass == 1 | incomplete_pass == 1 | interception ==1, !is.na(down)) %>%
+  group_by(passer_player_name, posteam) %>%
+  summarize(
+    yards = sum(passing_yards, na.rm = T),
+    tds = sum(touchdown == 1 & td_team == posteam),
+    ints = sum(interception),
+    att = n()
+  ) %>%
+  arrange(-yards) %>%
+  head(10)
