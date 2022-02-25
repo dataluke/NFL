@@ -26,4 +26,11 @@ steelers_rb <- pbp_rp %>%
   ) %>%
   arrange(-yards) %>%
   head(10)
+
+defence <- pbp %>%
+  filter(!is.na(sack_player_name)) %>%
+  group_by(sack_player_name) %>%
+  summarize(sacks = n()) %>%
+  arrange(-sacks)
+
             
